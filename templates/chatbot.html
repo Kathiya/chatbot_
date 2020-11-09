@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+		
+		<title>Movie Review</title>
+
+		<!-- Loading third party fonts -->
+		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+		<link href="static/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+		<!-- Loading main css file -->
+		<link rel="stylesheet" href="static/style.css">
+		<style>
+			.chatcontainer {
+			  border: 2px solid #dedede;
+			  background-color: #f1f1f1;
+			  border-radius: 5px;
+			  padding: 10px;
+			  margin: 10px 0;
+			}
+
+			.darker {
+			  border-color: #ccc;
+			  background-color: #ddd;
+			}
+
+			.chatcontainer::after {
+			  content: "";
+			  clear: both;
+			  display: table;
+			}
+
+			.chatcontainer img {
+			  float: left;
+			  max-width: 60px;
+			  width: 100%;
+			  margin-right: 20px;
+			  border-radius: 50%;
+			}
+
+			.chatcontainer img.right {
+			  float: right;
+			  margin-left: 20px;
+			  margin-right:0;
+			}
+
+			.time-right {
+			  float: right;
+			  color: #aaa;
+			}
+
+			.time-left {
+			  float: left;
+			  color: #999;
+			}
+
+			#scroll { 
+				margin:4px, 4px; 
+				padding:4px; 
+				background-image: url("/static/form_img.jpg"); 
+				width: 1100px; 
+				height: 500px; 
+				border-radius: 5px;
+				overflow-x: hidden; 
+				overflow-y: auto; 
+				text-align:justify; 
+			}
+			/* width */
+			#scroll::-webkit-scrollbar {
+			  width: 15px;
+			}
+
+			/* Track */
+			#scroll::-webkit-scrollbar-track {
+			  box-shadow: inset 0 0 5px grey; 
+			  border-radius: 10px;
+			}
+			 
+			/* Handle */
+			#scroll::-webkit-scrollbar-thumb {
+			  background: red; 
+			  border-radius: 10px;
+			}
+
+			/* Handle on hover */
+			#scroll::-webkit-scrollbar-thumb:hover {
+			  background: #b30000; 
+			}
+			.message{
+				background-image: url("static/icon-contact-pencil.png");
+				border: 1px solid #ccc;
+				padding: 10px 10px 10px 40px;
+				width: 85%;
+				min-height: 100px;
+				border-radius: 3px;
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+				background-repeat: no-repeat;
+				background-position: 10px 15px;
+			}
+			.message:focus, .message:hover {
+				border-color: #ffaa3c;
+			}
+			.extra {
+				border: 1px solid #ccc;
+				padding: 10px 10px 10px 40px;
+				width: 85%;
+				min-height: 100px;
+				border-radius: 3px;
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+				background-repeat: no-repeat;
+				background-position: 10px 15px;
+				background-image: url("static/icon-contact-user.png") !important; 
+			}
+			.extra:focus, .extra:hover {
+				border-color: #ffaa3c;
+			}
+			.textarea{
+			  width: 640px;
+			  height: 100px;
+			  padding: 12px 20px;
+			  box-sizing: border-box;
+			  border: 2px solid #ccc;
+			  border-radius: 10px;
+			  background-color: #ffffff;
+			  resize: none;
+			}
+			.alert {
+			  border: 2px solid #ff0000;
+			  color: red;
+			  border-radius: 5px;
+			  padding: 10px;
+			  margin: 10px 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="site-content">
+			<header class="site-header">
+				<div class="container">
+					<a href="index.html" id="branding">
+						<img src="static/logo.png" alt="" class="logo">
+						<div class="logo-copy">
+							<h1 class="site-title">Movie Recommender AI Chatbot</h1>
+							<small class="site-description">Consists of Chatbot and Sentiment Analysis</small>
+						</div>
+					</a>
+
+					<div class="main-navigation">
+						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+						<ul class="menu">
+							<li class="menu-item"><a href="/review">Movie reviews</a></li>
+							<li class="menu-item current-menu-item"><a href="/">Chatbot</a></li>
+						</ul>
+
+						<form action="#" class="search-form">
+							<input type="text" placeholder="Search...">
+							<button><i class="fa fa-search"></i></button>
+						</form>
+					</div> <!-- .main-navigation -->
+
+					<div class="mobile-navigation"></div>
+				</div>
+			</header>
+			<main class="main-content">
+				<div class="container">
+					<div class="page">
+						<div class="breadcrumbs">
+							<a href="chatbot.html">Chatbot</a>
+						</div>
+
+						<div class="content">
+							<div class="row">
+								<div class="col-md-12">
+									<h2>Chat With Our AI Bot</h2>
+									<div id="scroll">
+									{% for chat in chattingdetails %}
+										{% if chat.sender == 'Bot' %}
+											<div class="chatcontainer">
+												<img src="/static/bot.png" alt="Avatar" style="width:100%;">
+												<p>{{ chat.chattext }}</p>
+												<span class="time-right">{{ chat.date }} - {{ chat.time }}</span>
+											</div>
+										{% else %}
+											<div class="chatcontainer darker">
+												<img src="/static/human.png" alt="Avatar" class="right" style="width:100%;">
+												<p>{{ chat.chattext }}</p>
+												<span class="time-left">{{ chat.date }} - {{ chat.time }}</span>
+											</div>
+										{% endif %}
+									{% endfor %}
+									</div>
+									<div class="chatcontainer">
+										<form action="{{ request.path }}" method="post">
+											<textarea class="message" name="chattext" placeholder="Enter a message here"></textarea>
+											<input type="submit" value="Send Message">
+										</form>
+									</div>
+									<br>
+									<div class="chatcontainer darker">
+										<form action= {{url_for('login')}} method="POST">
+											<textarea class="extra" name="nm" placeholder="Enter Your Review Here"></textarea>
+											<input type="submit" onclick="window.location.href='/login';" value="Predict" />
+										</form>		
+									</div>
+									{%- for category, message in get_flashed_messages(with_categories=true) %}
+										<div class="alert">
+											{{ message }}
+										</div>
+									{%- endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+			<footer class="site-footer">
+				<div class="container">
+					<div class="colophon">Copyright: Ajaysinh Kathiya (17BCE037), Dhruvik Kanada (17BCE036), Siddharth Jotwani (17BCE034)</div>
+				</div>
+			</footer>
+		</div>
+		<script>
+			var objDiv = document.getElementById("scroll");
+			objDiv.scrollTop = objDiv.scrollHeight;
+		</script>
+		<script src="static/jquery-1.11.1.min.js"></script>
+		<script src="static/plugins.js"></script>
+		<script src="static/app.js"></script>
+	</body>
+</html>

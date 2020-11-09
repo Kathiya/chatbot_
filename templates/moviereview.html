@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1">
+		
+		<title>Movie Review</title>
+
+		<link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+		<link href="static/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="static/style.css">
+		<style>
+			.extra {
+				border: 1px solid #ccc;
+				padding: 10px 10px 10px 40px;
+				width: 85%;
+				min-height: 100px;
+				border-radius: 3px;
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+				background-repeat: no-repeat;
+				background-position: 10px 15px;
+				background-image: url("static/icon-contact-user.png") !important; 
+			}
+			.extra:focus, .extra:hover {
+				border-color: #ffaa3c;
+			}
+      .NEG_alert {
+			  border: 2px solid #ff0000;
+			  color: red;
+			  border-radius: 5px;
+			  padding: 10px;
+			  margin: 10px 0;
+			}
+       .POS_alert {
+			  border: 2px solid green;
+			  color: green;
+			  border-radius: 5px;
+			  padding: 10px;
+			  margin: 10px 0;
+			}
+			input[type=button], input[type=submit], input[type=reset] {
+			  white-space: normal;
+			  margin-left: 30px;
+			  margin-top: 28px;
+			  width: 130px;
+			  text-align: center;
+			  text-decoration: none;
+			  cursor: pointer;
+			  position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="site-content">
+			<header class="site-header">
+				<div class="container">
+					<a href="moviereview.html" id="branding">
+						<img src="static/logo.png" alt="" class="logo">
+						<div class="logo-copy">
+							<h1 class="site-title">Movie Recommender AI Chatbot</h1>
+							<small class="site-description">Consists of Chatbot and Sentiment Analysis</small>
+						</div>
+					</a> <!-- #branding -->
+
+					<div class="main-navigation">
+						<button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+						<ul class="menu">
+							<li class="menu-item current-menu-item"><a href="moviereview.html">Movie reviews</a></li>
+							<li class="menu-item"><a href="chatbot.html">Chatbot</a></li>
+						</ul> <!-- .menu -->
+
+						<form action="#" class="search-form">
+							<input type="text" placeholder="Search...">
+							<button><i class="fa fa-search"></i></button>
+						</form>
+					</div> <!-- .main-navigation -->
+
+					<div class="mobile-navigation"></div>
+				</div>
+			</header>
+			<main class="main-content">
+				<div class="container">
+					<div class="page">
+						<div class="breadcrumbs">
+							<a href="moviereview.html">Movie Review</a>
+						</div>
+
+						<div class="content">
+							<h2 class="section-title">Movie Review Using Sentiment Analysis</h2>
+							<div class="chatcontainer darker">
+								<form action= {{url_for('login')}} method="POST">
+									<textarea class="extra" name="nm" placeholder="Enter Your Review Here"></textarea>
+									<input type="submit" value="Predict">
+								</form>
+                {% with messages = get_flashed_messages(category_filter=["NEG"]) %}
+                 
+                    {% for message in messages %}
+                    <div class="NEG_alert">{{ message }}</div>
+                    {% endfor %}
+              
+              {% endwith %}
+
+{% with messages = get_flashed_messages(category_filter=["POS"]) %}
+
+    {% for message in messages %}
+      <div class = "POS_alert">{{ message }}</div>
+    {% endfor %}
+   
+{% endwith %}
+							</div>
+							<br>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="feature">
+										<h3 class="feature-title">Positive Review</h3>
+										<small class="feature-subtitle">Example:</small>
+										<p>A wonderful little production. The filming technique is very unassuming very old time bbc fashion and gives a comforting, and sometimes discomforting, sense of realism to the entire piece. The actors are extremely well chosen. You can truly see the seamless editing guided by the references to williams' diary entries, not only is it well worth the watching but it is a terrificly written and performed piece a masterful production.</p>
+										<a href="" class="button">Try it out</a>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="feature">
+										<h3 class="feature-title">Negative Review</h3>
+										<small class="feature-subtitle">Example:</small>
+										<p>This movie made it into one of my top 10 most awful movies. Horrible. There wasn't a continuous minute where there wasn't a fight with one monster or another. There was no chance for any character development, they were too busy running from one sword fight to another. I had no emotional attachment (except to the big bad machine that wanted to destroy them). Scenes were blatantly stolen from other movies.</p>
+										<a href="" class="button">Try it out</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> <!-- .container -->
+			</main>
+			<footer class="site-footer">
+				<div class="container">
+					<div class="colophon">Copyright: Ajaysinh Kathiya (17BCE037), Dhruvik Kanada (17BCE036), Siddharth Jotwani (17BCE034)</div>
+				</div>
+			</footer>
+		</div>
+		<!-- Default snippet for navigation -->
+		<script src="static/jquery-1.11.1.min.js"></script>
+		<script src="static/plugins.js"></script>
+		<script src="static/app.js"></script>
+	</body>
+</html>
