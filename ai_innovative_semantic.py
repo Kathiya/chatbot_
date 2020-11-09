@@ -257,7 +257,7 @@ def predict(str):
 
 
 app = Flask(__name__,template_folder='templates',static_folder='static')
-run_with_ngrok(app)
+#run_with_ngrok(app)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///chatbot.sqlite3'
 app.config['SECRET_KEY']="random string"
 db = SQLAlchemy(app)
